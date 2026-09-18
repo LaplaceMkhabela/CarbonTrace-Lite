@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+dist/
+.env
+.env.local
+.env.*.local
+data/store/
+data/*.db
+data/*.db-*
+# NOTE: data/models/anomaly-model.json is intentionally TRACKED — the
+# verification engine loads it at runtime and a fresh clone must work
+# without running `npm run train` first. Retraining overwrites it locally.
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+coverage/
