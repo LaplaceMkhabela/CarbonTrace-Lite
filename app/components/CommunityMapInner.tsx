@@ -32,7 +32,7 @@ const DEFAULT_ZOOM = 2;
 // NEXT_PUBLIC_CARTO_KEY so the client bundle can build tile URLs; without it
 // tiles still render but carry an "API key required" watermark.
 const CARTO_KEY = process.env.NEXT_PUBLIC_CARTO_KEY;
-const TILE_URL = `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${CARTO_KEY ? `?key=${CARTO_KEY}` : ""}`;
+const TILE_URL = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_KEY ? `?key=${CARTO_KEY}` : ""}`;
 
 function markerRadius(quantity: number): number {
   if (!Number.isFinite(quantity) || quantity <= 0) return 6;
