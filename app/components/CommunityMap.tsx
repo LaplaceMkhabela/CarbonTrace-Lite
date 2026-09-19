@@ -58,6 +58,14 @@ export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
                   height={18}
                   style={{ marginRight: "0.35rem" }}
                 />
+              ) : s === "verified" ? (
+                <img
+                  src="/verified-pin.svg"
+                  alt="Verified pin"
+                  width={14}
+                  height={14}
+                  style={{ marginRight: "0.35rem" }}
+                />
               ) : (
                 <span className="status-dot" style={{ background: STATUS_COLOR[s] }} />
               )}

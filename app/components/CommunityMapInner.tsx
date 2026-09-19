@@ -52,6 +52,14 @@ const flaggedIcon = L.icon({
   popupAnchor: [0, -36],
 });
 
+/** Green check-pin marker for verified claims. */
+const verifiedIcon = L.icon({
+  iconUrl: "/verified-pin.svg",
+  iconSize: [30, 30],
+  iconAnchor: [15, 28],
+  popupAnchor: [0, -26],
+});
+
 /** Keeps every marker in view as the claim set changes. */
 function FitBounds({ points }: { points: Array<[number, number]> }) {
   const map = useMap();
@@ -108,6 +116,13 @@ export default function CommunityMapInner({ claims }: { claims: ApiClaim[] }) {
         if (c.status === "flagged") {
           return (
             <Marker key={c.claimId} position={[c.lat, c.lon]} icon={flaggedIcon}>
+              {popup}
+            </Marker>
+          );
+        }
+        if (c.status === "verified") {
+          return (
+            <Marker key={c.claimId} position={[c.lat, c.lon]} icon={verifiedIcon}>
               {popup}
             </Marker>
           );
