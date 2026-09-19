@@ -134,6 +134,23 @@ npm install
 npm run dev       # http://localhost:3000
 ```
 
+### Docker (production)
+
+```bash
+docker compose up --build   # http://localhost:3000
+```
+
+The image is a multi-stage build (Node 24, Next.js standalone, non-root).
+Notes:
+
+- No secrets are baked in — live keys come from `.env` (gitignored), picked
+  up automatically by compose. Without keys the container runs the demo-safe
+  defaults (`USE_MOCK_DATA=true`, simulated attestation).
+- SQLite persists in the `carbontrace-db` volume (`DB_PATH` points inside it);
+  the trained model (`data/models/anomaly-model.json`) is baked into the image.
+- Plain docker alternative:
+  `docker build -t carbontrace-lite . && docker run -p 3000:3000 --env-file .env carbontrace-lite`.
+
 ### Demo — no keys needed
 
 ```bash

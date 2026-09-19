@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // Slim production image: `server.js` + traced deps only.
+  output: "standalone",
+};
 
 export default nextConfig;

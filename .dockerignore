@@ -1,0 +1,19 @@
+node_modules
+.next
+out
+dist
+.git
+.gitignore
+*.log
+coverage/
+.env
+.env.local
+.env.*.local
+data/*.db
+data/*.db-*
+data/store/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+# NOTE: data/models/anomaly-model.json is intentionally NOT ignored — the
+# builder needs it and the runner bakes it into the image.

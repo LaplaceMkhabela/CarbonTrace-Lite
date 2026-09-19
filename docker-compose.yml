@@ -1,0 +1,28 @@
+# CarbonTrace Lite — production stack (app + persisted sqlite).
+#   docker compose up --build
+# App: http://localhost:3000
+#
+# Live services are opt-in via .env (never committed):
+#   USE_MOCK_DATA=false, SH_CLIENT_ID/SECRET, OPENWEATHER_API_KEY,
+#   PRIVATE_KEY, CONTRACT_ADDRESS, NEXT_PUBLIC_CARTO_KEY
+
+services:
+  app:
+    build: .
+    image: carbontrace-lite:latest
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      USE_MOCK_DATA: ${USE_MOCK_DATA:-true}
+      STORAGE: sqlite
+      DB_PATH: /app/data/db/carbontrace.db
+      NEXT_PUBLIC_CARTO_KEY: ${NEXT_PUBLIC_CARTO_KEY:-}
+    volumes:
+      - carbontrace-db:/app/data/db
+    restart: unless-stopped
+
+volumes:
+  carbontrace-db:
