@@ -37,7 +37,7 @@ artefacts that require external resources (tesnet keys, a recorded video).
 | Feature | Location |
 |---|---|
 | Dashboard with live stats, community map, claim feed, submit form, flagged-review queue | `app/page.tsx` + `app/components/Dashboard.tsx` |
-| Dependency-free SVG community map (equirectangular projection, status-coloured markers) | `app/components/CommunityMap.tsx` |
+| Interactive Leaflet community map (CARTO dark basemap, OSM data, status-coloured circle markers + certificate popups, client-only via `next/dynamic`) | `app/components/CommunityMap.tsx` + `app/components/CommunityMapInner.tsx` |
 | Claim submission form → `/api/verify` with inline result | `app/components/SubmitClaim.tsx` |
 | Claim detail page + **printable certificate** with data hash / tx hash / sources | `app/claims/[id]/page.tsx`, `app/components/CertificateActions.tsx` |
 | Team/agent dashboard (balance, stats split, history) | `app/agents/[agentRef]/page.tsx` |

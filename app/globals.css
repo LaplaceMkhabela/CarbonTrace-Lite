@@ -331,6 +331,57 @@ textarea {
   margin-bottom: 0.35rem;
 }
 
+/* ---------- leaflet map ---------- */
+
+.leaflet-map {
+  height: 420px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  font-family: inherit;
+  /* Keep Leaflet panes/controls below the sticky site header (z-index 20). */
+  z-index: 0;
+}
+.leaflet-map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leaflet-container .leaflet-control-zoom a {
+  background: var(--panel);
+  color: var(--text);
+  border-color: var(--border);
+}
+.leaflet-container .leaflet-control-attribution {
+  background: rgba(11, 17, 32, 0.75);
+  color: var(--text-dim);
+  font-size: 10px;
+}
+.leaflet-container .leaflet-control-attribution a {
+  color: var(--text-dim);
+}
+.leaflet-popup-content-wrapper {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.leaflet-popup-tip {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+.leaflet-popup-content {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.leaflet-popup-content a {
+  color: var(--accent-2);
+}
+.leaflet-popup-content .muted {
+  color: var(--text-dim);
+}
+
 /* ---------- print ---------- */
 
 @media print {
