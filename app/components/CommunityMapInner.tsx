@@ -44,12 +44,12 @@ function displayAgent(ref?: string): string {
   return ref?.replace(/^user:/, "") ?? "community";
 }
 
-/** Orange pin marker reserved for flagged claims awaiting community review. */
+/** Red X-pin marker reserved for flagged claims awaiting community review. */
 const flaggedIcon = L.icon({
   iconUrl: "/flagged-pin.svg",
-  iconSize: [30, 42],
-  iconAnchor: [15, 40],
-  popupAnchor: [0, -36],
+  iconSize: [30, 30],
+  iconAnchor: [15, 28],
+  popupAnchor: [0, -26],
 });
 
 /** Green check-pin marker for verified claims. */

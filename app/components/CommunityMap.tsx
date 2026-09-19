@@ -48,8 +48,8 @@ export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
                 <img
                   src="/flagged-pin.svg"
                   alt="Flagged pin"
-                  width={13}
-                  height={18}
+                  width={14}
+                  height={14}
                   style={{ marginRight: "0.35rem" }}
                 />
               ) : s === "verified" ? (
