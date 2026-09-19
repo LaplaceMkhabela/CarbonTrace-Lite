@@ -23,12 +23,32 @@ const STATUS_LABEL: Record<string, string> = {
   flagged: "Flagged",
 };
 
-export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
+export type MapStatusFilter = "all" | "verified" | "partial" | "flagged";
+
+export default function CommunityMap({
+  claims,
+  statusFilter = "all",
+  onFilterChange,
+}: {
+  claims: ApiClaim[];
+  statusFilter?: MapStatusFilter;
+  onFilterChange?: (f: MapStatusFilter) => void;
+}) {
   const count = (s: string) => claims.filter((c) => c.status === s).length;
+  const shown = statusFilter === "all" ? claims : claims.filter((c) => c.status === statusFilter);
 
   return (
     <div>
-      <CommunityMapInner claims={claims} />
+      {onFilterChange && (
+        <div className="seg" style={{ marginBottom: "0.75rem" }}>
+          {(["all", "verified", "partial", "flagged"] as const).map((s) => (
+            <button key={s} className={statusFilter === s ? "on" : ""} onClick={() => onFilterChange(s)}>
+              {s === "all" ? `All (${claims.length})` : `${STATUS_LABEL[s]} (${count(s)})`}
+            </button>
+          ))}
+        </div>
+      )}
+      <CommunityMapInner claims={shown} />
 
       <div
         style={{

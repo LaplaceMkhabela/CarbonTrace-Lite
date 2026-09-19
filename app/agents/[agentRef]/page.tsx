@@ -69,7 +69,13 @@ export default async function AgentPage({ params }: { params: { agentRef: string
       </a>
 
       <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem", marginTop: "0.6rem" }}>
-        <h1>{user.displayName}</h1>
+        <div>
+          <div className="eyebrow">
+            <span className="status-dot" />
+            Team carbon ledger
+          </div>
+          <h1>{user.displayName}</h1>
+        </div>
         <span className="chip">{agentRef}</span>
       </div>
       <p className="subtitle">Team carbon ledger — verified and on-chain.</p>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CarbonTrace Lite — Community carbon ledger</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Play CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#F5F5F7",
+            "surface": "#FFFFFF",
+            "surface-dim": "#E5E5EA",
+            "surface-container-lowest": "#FFFFFF",
+            "surface-container-low": "#F9F9FB",
+            "surface-container": "#F5F5F7",
+            "surface-container-high": "#EBECEF",
+            "surface-container-highest": "#E3E4E8",
+            "primary": "#34C759",
+            "primary-container": "#248A3D",
+            "primary-fixed": "#E8F8ED",
+            "on-primary": "#FFFFFF",
+            "on-primary-container": "#0B3814",
+            "secondary": "#FF9500",
+            "secondary-container": "#FFF3E0",
+            "on-secondary": "#FFFFFF",
+            "tertiary": "#FF3B30",
+            "tertiary-container": "#FEE2E2",
+            "error": "#FF3B30",
+            "on-surface": "#1D1D1F",
+            "on-surface-variant": "#6E6E73",
+            "outline": "#D1D1D6",
+            "outline-variant": "rgba(0, 0, 0, 0.06)"
+          },
+          "borderRadius": {
+            "apple-sm": "8px",
+            "apple-md": "12px",
+            "apple-lg": "16px",
+            "apple-xl": "20px",
+            "apple-2xl": "24px"
+          },
+          "fontFamily": {
+            "sans": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Plus Jakarta Sans", "Inter", "sans-serif"],
+            "mono": ["SF Mono", "Menlo", "Monaco", "Consolas", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 20;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 5px;
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.22);
+    }
+    @keyframes apple-radar {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      70% { transform: scale(1.7); opacity: 0; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .animate-pulse-ring {
+      animation: apple-radar 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F5F7] text-[#1D1D1F] font-sans antialiased min-h-screen flex flex-col selection:bg-[#34C759]/20 selection:text-[#1D1D1F] relative overflow-x-hidden">
+<!-- Subtle Ambient Background Glows -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-[20%] left-1/4 w-[650px] h-[650px] bg-emerald-500/[0.04] rounded-full blur-[140px]"></div>
+<div class="absolute top-[35%] -right-[10%] w-[550px] h-[550px] bg-amber-500/[0.03] rounded-full blur-[140px]"></div>
+<div class="absolute bottom-[-10%] left-[10%] w-[600px] h-[600px] bg-blue-500/[0.03] rounded-full blur-[150px]"></div>
+</div>
+<!-- Apple macOS / iOS Translucent Navigation Bar (Light Mode) -->
+<header class="sticky top-0 z-50 backdrop-blur-2xl bg-white/80 border-b border-black/[0.06] transition-all">
+<div class="w-full max-w-[1440px] mx-auto px-6 lg:px-8 flex items-center justify-between h-14">
+<!-- Brand Logo & Segmented Navigation -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight text-[#1D1D1F] group" href="#">
+<span class="w-7 h-7 rounded-xl bg-gradient-to-b from-[#34C759] to-[#28a745] flex items-center justify-center text-white shadow-[0_2px_8px_rgba(52,199,89,0.35)] ring-1 ring-black/5 group-hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-[17px] font-bold">eco</span>
+</span>
+<span class="tracking-[-0.015em]">CarbonTrace <span class="text-[#86868B] font-normal">Lite</span></span>
+</a>
+<!-- Apple macOS Style Segmented Navigation Bar -->
+<nav class="hidden md:flex items-center p-0.5 rounded-full bg-[#E5E5EA]/70 border border-black/[0.04] shadow-inner backdrop-blur-md">
+<a class="px-3.5 py-1 rounded-full text-[13px] font-medium text-[#1D1D1F] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-all" href="#">
+          Dashboard
+        </a>
+<a class="px-3.5 py-1 rounded-full text-[13px] font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors" href="#">
+          Marketplace
+        </a>
+<a class="px-3.5 py-1 rounded-full text-[13px] font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors" href="#">
+          Audit Log
+        </a>
+<a class="px-3.5 py-1 rounded-full text-[13px] font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors" href="#">
+          Docs
+        </a>
+</nav>
+</div>
+<!-- Trailing Action Controls -->
+<div class="flex items-center gap-2.5">
+<!-- Sensor Telemetry Button -->
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-black/[0.04] text-[#6E6E73] hover:text-[#1D1D1F] border border-black/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all" title="Telemetry Feed">
+<span class="material-symbols-outlined text-[17px]">sensors</span>
+</button>
+<!-- Notification Bell with Apple Dot -->
+<button class="relative w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-black/[0.04] text-[#6E6E73] hover:text-[#1D1D1F] border border-black/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all" title="Notifications">
+<span class="material-symbols-outlined text-[17px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#FF9500] rounded-full ring-2 ring-white"></span>
+</button>
+<!-- Primary Action: Apple Vibrant Green Button -->
+<a class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#34C759] hover:bg-[#2EB84E] active:scale-[0.97] text-white font-medium text-[13px] tracking-tight shadow-[0_2px_8px_rgba(52,199,89,0.3)] ring-1 ring-black/5 transition-all duration-150 ml-1" href="#claim-form-section">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span class="">Submit a claim</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="relative z-10 flex-1 w-full max-w-[1440px] mx-auto px-6 lg:px-8 py-7 md:py-9 flex flex-col gap-7">
+<!-- Apple Headline Section with Live Telemetry Pill -->
+<div class="flex flex-col gap-2">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#248A3D] bg-[#34C759]/15 px-2.5 py-0.5 rounded-full border border-[#34C759]/30">Decentralized MRV</span>
+<span class="text-black/25 text-xs">•</span>
+<span class="text-[#86868B] text-xs font-mono">Protocol v2.4</span>
+</div>
+<h1 class="text-2xl sm:text-[32px] font-semibold tracking-[-0.03em] text-[#1D1D1F] leading-tight">
+          Community carbon ledger
+        </h1>
+<p class="text-[14px] text-[#6E6E73] max-w-2xl mt-1 leading-relaxed font-normal">
+          Every environmental action is cross-checked against independent satellite and weather data before credits are minted. No self-reported number is trusted on its own.
+        </p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.08] text-[#1D1D1F] text-[12px] shadow-[0_1px_4px_rgba(0,0,0,0.04)] backdrop-blur-xl">
+<span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse shadow-[0_0_8px_rgba(52,199,89,0.8)]"></span>
+<span class="font-medium tracking-tight">Sentinel-2 L2A Active Synced</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Key Metrics Ribbon (Apple Health / macOS Activity Card Style - Light) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"><!-- Card 1: CLAIMS (Cyan / Electric Blue Glow) -->
+<div class="p-[1.5px] rounded-[20px] transition-all duration-200 hover:scale-[1.01]" style="background: linear-gradient(135deg, rgb(0, 199, 190) 0%, rgb(0, 122, 255) 50%, rgb(56, 189, 248) 100%); box-shadow: rgba(0, 122, 255, 0.35) 0px 10px 30px -5px;">
+  <div class="p-5 rounded-[18.5px] bg-white h-full flex flex-col justify-between">
+    <div class="flex items-center justify-between">
+      <span class="text-[11px] font-semibold text-[#86868B] uppercase tracking-[0.06em]">CLAIMS</span>
+      <div class="w-7 h-7 rounded-full bg-blue-500/[0.08] flex items-center justify-center text-[#007AFF]">
+        <span class="material-symbols-outlined text-[16px]">receipt_long</span>
+      </div>
+    </div>
+    <div class="mt-4 flex items-baseline justify-between">
+      <span class="text-[34px] font-semibold tracking-tight text-[#1D1D1F]">8</span>
+      <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#007AFF]/10 text-[#007AFF] text-[11px] font-semibold border border-[#007AFF]/20">
+        <span class="material-symbols-outlined text-[13px]">arrow_upward</span> +2 today
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Card 2: VERIFIED (Neon Green / Lime Glow) -->
+<div class="p-[1.5px] rounded-[20px] transition-all duration-200 hover:scale-[1.01]" style="background: linear-gradient(135deg, rgb(34, 197, 94) 0%, rgb(16, 185, 129) 50%, rgb(6, 182, 212) 100%); box-shadow: rgba(34, 197, 94, 0.4) 0px 10px 30px -5px;">
+  <div class="p-5 rounded-[18.5px] h-full flex flex-col justify-between bg-white">
+    <div class="flex items-center justify-between">
+      <span class="text-[11px] font-semibold text-[#86868B] uppercase tracking-[0.06em]">VERIFIED</span>
+      <div class="w-7 h-7 rounded-full bg-[#34C759]/15 text-[#248A3D] flex items-center justify-center border border-[#34C759]/30">
+        <span class="material-symbols-outlined text-[15px] font-bold">check</span>
+      </div>
+    </div>
+    <div class="mt-4 flex items-baseline justify-between">
+      <span class="text-[34px] font-semibold tracking-tight text-[#248A3D]">3</span>
+      <span class="px-2.5 py-0.5 rounded-full bg-[#34C759]/15 text-[#248A3D] border border-[#34C759]/25 text-[11px] font-semibold tracking-tight">100% SLA</span>
+    </div>
+  </div>
+</div>
+
+<!-- Card 3: AWAITING REVIEW (Magenta / Pink-to-Yellow Glow) -->
+<div class="p-[1.5px] rounded-[20px] transition-all duration-200 hover:scale-[1.01]" style="background: linear-gradient(135deg, rgb(236, 72, 153) 0%, rgb(244, 63, 94) 50%, rgb(234, 179, 8) 100%); box-shadow: rgba(236, 72, 153, 0.35) 0px 10px 30px -5px;">
+  <div class="p-5 rounded-[18.5px] bg-white h-full flex flex-col justify-between">
+    <div class="flex items-center justify-between">
+      <span class="text-[11px] font-semibold text-[#86868B] uppercase tracking-[0.06em]">AWAITING REVIEW</span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#ec4899] ring-4 ring-[#ec4899]/20"></span>
+    </div>
+    <div class="mt-4 flex items-baseline justify-between">
+      <span class="text-[34px] font-semibold tracking-tight text-[#f43f5e]">2</span>
+      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-pink-500/10 text-[#ec4899] border border-pink-500/20 text-[11px] font-semibold">
+        <span class="material-symbols-outlined text-[13px]">hourglass_top</span> Needs review
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Card 4: CREDITS ISSUED (Purple / Violet Glow) -->
+<div class="p-[1.5px] rounded-[20px] transition-all duration-200 hover:scale-[1.01]" style="background: linear-gradient(135deg, rgb(139, 92, 246) 0%, rgb(168, 85, 247) 50%, rgb(59, 130, 246) 100%); box-shadow: rgba(168, 85, 247, 0.38) 0px 10px 30px -5px;">
+  <div class="p-5 rounded-[18.5px] bg-white h-full flex flex-col justify-between">
+    <div class="flex items-center justify-between">
+      <span class="text-[11px] font-semibold text-[#86868B] uppercase tracking-[0.06em]">CREDITS ISSUED</span>
+      <div class="w-7 h-7 rounded-full bg-purple-500/10 flex items-center justify-center text-[#a855f7]">
+        <span class="material-symbols-outlined text-[16px]">token</span>
+      </div>
+    </div>
+    <div class="mt-4 flex items-baseline justify-between">
+      <div class="flex items-baseline gap-1.5">
+        <span class="text-[34px] font-semibold tracking-tight text-[#1D1D1F]">244</span>
+        <span class="text-[13px] font-semibold text-[#a855f7]">CTC</span>
+      </div>
+      <span class="text-[11px] font-medium text-[#86868B]">
+        Verified ledger
+      </span>
+    </div>
+  </div>
+</div></div>
+<!-- Apple Health / macOS Analytics Duo Grid (Light) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Verification Ratio: Apple Ring Widget -->
+<div class="lg:col-span-5 p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<h2 class="text-[16px] font-semibold text-[#1D1D1F] tracking-tight">Verification ratio</h2>
+<span class="px-2 py-0.5 rounded-full bg-[#34C759]/15 border border-[#34C759]/30 text-[#248A3D] text-[11px] font-semibold">Live SLA</span>
+</div>
+<span class="text-[12px] font-medium text-[#86868B]">8 total claims</span>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-around gap-6 my-3">
+<!-- Donut SVG Apple Ring -->
+<div class="relative flex items-center justify-center">
+<svg class="w-40 h-40 transform -rotate-90" viewBox="0 0 120 120">
+<!-- Track -->
+<circle cx="60" cy="60" fill="none" r="48" stroke="#E5E5EA" stroke-width="10"></circle>
+<!-- Verified (37.5%) -->
+<circle class="transition-all duration-1000" cx="60" cy="60" fill="none" r="48" stroke="#34C759" stroke-dasharray="301.59" stroke-dashoffset="188.5" stroke-linecap="round" stroke-width="10"></circle>
+<!-- Partial (37.5%) -->
+<circle class="transition-all duration-1000" cx="60" cy="60" fill="none" r="48" stroke="#FF9500" stroke-dasharray="301.59" stroke-dashoffset="226.19" stroke-linecap="round" stroke-width="10" style="transform: rotate(135deg); transform-origin: 60px 60px;"></circle>
+<!-- Flagged (25%) -->
+<circle class="transition-all duration-1000" cx="60" cy="60" fill="none" r="48" stroke="#FF3B30" stroke-dasharray="301.59" stroke-dashoffset="226.19" stroke-linecap="round" stroke-width="10" style="transform: rotate(270deg); transform-origin: 60px 60px;"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center text-center">
+<span class="text-[28px] font-semibold text-[#1D1D1F] tracking-tight leading-none">37.5%</span>
+<span class="text-[10px] font-semibold uppercase tracking-[0.06em] text-[#86868B] mt-1">Attested</span>
+</div>
+</div>
+<!-- Apple Style Compact Breakdown Rows -->
+<div class="flex flex-col gap-2 w-full sm:w-auto min-w-[190px]">
+<div class="flex items-center justify-between p-2 rounded-xl bg-[#F5F5F7] border border-black/[0.04]">
+<div class="flex items-center gap-2.5">
+<span class="w-2 h-2 rounded-full bg-[#34C759] shadow-[0_0_6px_rgba(52,199,89,0.7)]"></span>
+<span class="text-[13px] text-[#1D1D1F] font-medium">Verified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#86868B] font-mono">3</span>
+<span class="px-1.5 py-0.5 rounded-md bg-[#34C759]/15 text-[#248A3D] font-mono text-[11px] font-semibold">37.5%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded-xl bg-[#F5F5F7] border border-black/[0.04]">
+<div class="flex items-center gap-2.5">
+<span class="w-2 h-2 rounded-full bg-[#FF9500] shadow-[0_0_6px_rgba(255,149,0,0.7)]"></span>
+<span class="text-[13px] text-[#1D1D1F] font-medium">Partial</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#86868B] font-mono">3</span>
+<span class="px-1.5 py-0.5 rounded-md bg-[#FF9500]/15 text-[#B26A00] font-mono text-[11px] font-semibold">37.5%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded-xl bg-[#F5F5F7] border border-black/[0.04]">
+<div class="flex items-center gap-2.5">
+<span class="w-2 h-2 rounded-full bg-[#FF3B30] shadow-[0_0_6px_rgba(255,59,48,0.7)]"></span>
+<span class="text-[13px] text-[#1D1D1F] font-medium">Flagged</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#86868B] font-mono">2</span>
+<span class="px-1.5 py-0.5 rounded-md bg-[#FF3B30]/15 text-[#D70015] font-mono text-[11px] font-semibold">25.0%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-3.5 border-t border-black/[0.06] flex items-center justify-between text-[11px] text-[#86868B]">
+<span class="">Satellite confidence threshold: ≥85%</span>
+<span class="text-[#248A3D] font-mono font-medium">Passed: 3/8</span>
+</div>
+</div>
+<!-- Historical Issuance Trend: Apple Pro Chart -->
+<div class="lg:col-span-7 p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+<div class="flex items-center gap-3">
+<h2 class="text-[16px] font-semibold text-[#1D1D1F] tracking-tight">Historical issuance trend</h2>
+<span class="px-2 py-0.5 rounded-full bg-[#FF9500]/15 text-[#B26A00] font-mono text-xs font-semibold border border-[#FF9500]/25">+244 CTC minted</span>
+</div>
+<!-- Apple Style Segmented Pill Filter -->
+<div class="flex items-center p-0.5 rounded-full bg-[#E5E5EA]/70 border border-black/[0.04]">
+<button class="px-2.5 py-0.5 rounded-full text-[#6E6E73] hover:text-[#1D1D1F] text-[11px] font-medium transition-all">30D</button>
+<button class="px-2.5 py-0.5 rounded-full text-[#6E6E73] hover:text-[#1D1D1F] text-[11px] font-medium transition-all">90D</button>
+<button class="px-2.5 py-0.5 rounded-full bg-white text-[#1D1D1F] text-[11px] font-semibold shadow-sm transition-all">All</button>
+</div>
+</div>
+<!-- Clean Apple Vector Trend Line Chart -->
+<div class="relative w-full h-48 sm:h-52 my-1">
+<svg class="w-full h-full overflow-visible" viewBox="0 0 600 180">
+<defs>
+<linearGradient id="appleIssuanceGradientLight" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#FF9500" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#FF9500" stop-opacity="0.0"></stop>
+</linearGradient>
+</defs>
+<line stroke="#E5E5EA" stroke-dasharray="3 3" x1="35" x2="585" y1="30" y2="30"></line>
+<line stroke="#E5E5EA" stroke-dasharray="3 3" x1="35" x2="585" y1="75" y2="75"></line>
+<line stroke="#E5E5EA" stroke-dasharray="3 3" x1="35" x2="585" y1="120" y2="120"></line>
+<line stroke="#D1D1D6" stroke-dasharray="none" x1="35" x2="585" y1="155" y2="155"></line>
+<text fill="#86868B" font-family="-apple-system, sans-serif" font-size="10" x="10" y="34">240</text>
+<text fill="#86868B" font-family="-apple-system, sans-serif" font-size="10" x="10" y="79">160</text>
+<text fill="#86868B" font-family="-apple-system, sans-serif" font-size="10" x="15" y="124">80</text>
+<text fill="#86868B" font-family="-apple-system, sans-serif" font-size="10" x="20" y="158">0</text>
+<path d="M 60 155 L 60 150 C 120 148, 150 142, 190 135 C 240 125, 280 115, 330 95 C 380 75, 430 55, 480 42 C 520 32, 550 30, 570 28 L 570 155 Z" fill="url(#appleIssuanceGradientLight)"></path>
+<path d="M 60 150 C 120 148, 150 142, 190 135 C 240 125, 280 115, 330 95 C 380 75, 430 55, 480 42 C 520 32, 550 30, 570 28" fill="none" stroke="#FF9500" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="60" cy="150" fill="#FF9500" r="3.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="190" cy="135" fill="#FF9500" r="3.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="330" cy="95" fill="#FF9500" r="3.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="480" cy="42" fill="#FF9500" r="3.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle class="filter drop-shadow-[0_1px_4px_rgba(52,199,89,0.6)]" cx="570" cy="28" fill="#34C759" r="5" stroke="#FFFFFF" stroke-width="2.5"></circle>
+</svg>
+</div>
+<div class="flex items-center justify-between pt-3 border-t border-black/[0.06] text-[11px] text-[#86868B]">
+<span class="">12 Sept 2026</span>
+<span class="">14 Sept</span>
+<span class="">16 Sept</span>
+<span class="">18 Sept</span>
+<span class="text-[#248A3D] font-medium">19 Sept (244 CTC)</span>
+</div>
+</div>
+</div>
+<!-- Apple Maps-Inspired Geospatial Viewer Card (Light Appearance) -->
+<div class="p-6 rounded-[24px] bg-white border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.05)] flex flex-col gap-4 relative overflow-hidden">
+<!-- Map Header with Apple Segmented Pill -->
+<div class="flex flex-wrap items-center justify-between gap-4 z-10">
+<div class="flex items-center gap-3">
+<h2 class="text-[17px] font-semibold text-[#1D1D1F] tracking-tight">Community map</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-[#F5F5F7] border border-black/[0.06] text-[#6E6E73] text-[11px] font-medium">
+          8 claims
+        </span>
+</div>
+<!-- Apple Segmented Control -->
+<div class="flex items-center p-1 rounded-full bg-[#E5E5EA]/70 border border-black/[0.04] backdrop-blur-xl shadow-inner">
+<button class="px-3.5 py-1 rounded-full bg-white text-[#1D1D1F] text-[12px] font-medium shadow-sm transition-all">All (8)</button>
+<button class="px-3 py-1 rounded-full text-[#6E6E73] hover:text-[#1D1D1F] text-[12px] font-medium transition-all">Verified (3)</button>
+<button class="px-3 py-1 rounded-full text-[#6E6E73] hover:text-[#1D1D1F] text-[12px] font-medium transition-all">Partial (3)</button>
+<button class="px-3 py-1 rounded-full text-[#6E6E73] hover:text-[#1D1D1F] text-[12px] font-medium transition-all">Flagged (2)</button>
+</div>
+</div>
+<!-- Geospatial Canvas (Apple Maps Light Satellite/Vector style) -->
+<div class="relative w-full h-[420px] sm:h-[460px] rounded-[18px] bg-[#EAECEF] border border-black/[0.08] overflow-hidden flex items-center justify-center select-none shadow-inner">
+<div class="absolute inset-0 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:20px_20px] opacity-35 pointer-events-none"></div>
+<svg class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="satSwathLight" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#34C759" stop-opacity="0.25"></stop>
+<stop offset="50%" stop-color="#34C759" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#34C759" stop-opacity="0.0"></stop>
+</linearGradient>
+<radialGradient cx="50%" cy="50%" id="beaconVerifiedGlowLight" r="50%">
+<stop offset="0%" stop-color="#34C759" stop-opacity="0.5"></stop>
+<stop offset="100%" stop-color="#34C759" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient cx="50%" cy="50%" id="beaconFlaggedGlowLight" r="50%">
+<stop offset="0%" stop-color="#FF3B30" stop-opacity="0.55"></stop>
+<stop offset="100%" stop-color="#FF3B30" stop-opacity="0"></stop>
+</radialGradient>
+</defs>
+<!-- Coordinate Grid Lines -->
+<g stroke="rgba(0,0,0,0.06)" stroke-dasharray="3 4" stroke-width="0.7">
+<line x1="50" x2="950" y1="83" y2="83"></line>
+<line x1="50" x2="950" y1="166" y2="166"></line>
+<line stroke="rgba(0,0,0,0.12)" stroke-dasharray="none" stroke-width="1" x1="50" x2="950" y1="250" y2="250"></line>
+<line x1="50" x2="950" y1="333" y2="333"></line>
+<line x1="50" x2="950" y1="416" y2="416"></line>
+<line x1="166" x2="166" y1="40" y2="460"></line>
+<line x1="333" x2="333" y1="40" y2="460"></line>
+<line stroke="rgba(0,0,0,0.1)" stroke-width="1" x1="500" x2="500" y1="40" y2="460"></line>
+<line x1="666" x2="666" y1="40" y2="460"></line>
+<line x1="833" x2="833" y1="40" y2="460"></line>
+</g>
+<!-- Geo Labels -->
+<g fill="#86868B" font-family="-apple-system, sans-serif" font-size="8.5" opacity="0.9">
+<text x="54" y="80">60°N</text><text x="54" y="163">30°N</text><text fill="#1D1D1F" font-weight="600" x="54" y="246">0° EQ</text><text x="54" y="330">30°S</text><text x="54" y="413">60°S</text>
+<text x="168" y="52">120°W</text><text x="335" y="52">60°W</text><text fill="#1D1D1F" font-weight="600" x="502" y="52">0° PRIME</text><text x="668" y="52">60°E</text><text x="835" y="52">120°E</text>
+</g>
+<!-- Continental Outlines (Apple Maps Light Gray Landmasses) -->
+<g fill="#D1D5DB" stroke="rgba(255,255,255,0.7)" stroke-linejoin="round" stroke-width="1.2">
+<path d="M178 72 L210 65 L252 68 L285 82 L300 102 L292 118 L265 125 L248 135 L245 158 L232 175 L222 195 L208 215 L198 210 L188 185 L168 182 L150 162 L142 135 L155 105 L162 82 Z"></path>
+<path d="M238 60 L285 52 L315 62 L320 85 L285 92 L250 82 Z"></path>
+<path d="M208 218 L225 214 L246 226 L262 245 L258 260 L242 258 L228 248 Z"></path>
+<path d="M252 255 L285 248 L325 255 L358 275 L365 305 L345 342 L320 380 L295 425 L282 430 L275 410 L282 375 L272 342 L258 312 L248 280 Z"></path>
+<path d="M482 72 L505 65 L525 70 L532 90 L518 108 L495 110 L478 95 Z"></path>
+<path d="M460 108 L475 98 L488 102 L482 120 L465 125 Z"></path>
+<path d="M492 105 L525 98 L560 102 L572 122 L550 145 L525 150 L502 145 L488 130 Z"></path>
+<path d="M462 142 L488 140 L492 165 L465 168 Z"></path>
+<path d="M468 168 L535 162 L572 185 L590 220 L585 260 L570 300 L545 350 L520 375 L500 355 L490 310 L460 265 L450 215 L458 180 Z"></path>
+<path d="M585 315 L600 318 L595 348 L580 345 Z"></path>
+<path d="M562 98 L640 85 L740 82 L820 95 L865 118 L870 145 L835 160 L785 162 L745 152 L705 145 L660 148 L605 142 L575 125 Z"></path>
+<path d="M665 168 L700 170 L720 205 L705 245 L685 248 L668 220 L660 190 Z"></path>
+<path d="M745 158 L820 160 L845 188 L825 220 L785 228 L762 215 L745 185 Z"></path>
+<path d="M795 245 L835 248 L875 265 L860 290 L815 285 L785 265 Z"></path>
+<path d="M848 122 L862 120 L865 150 L852 165 L845 145 Z"></path>
+<path d="M760 320 L815 315 L865 330 L870 375 L840 405 L780 402 L750 370 L748 340 Z"></path>
+<path d="M872 380 L885 385 L880 415 L865 410 Z"></path>
+<path d="M880 345 L900 350 L895 380 L878 375 Z"></path>
+</g>
+<!-- Satellite Orbit & Footprint -->
+<path d="M 120 460 Q 280 250 480 180 T 890 50" fill="none" opacity="0.9" stroke="#248A3D" stroke-dasharray="6 6" stroke-width="1.6"></path>
+<path d="M 420 220 L 530 160 L 555 190 L 445 250 Z" fill="url(#satSwathLight)" opacity="0.85" stroke="#34C759" stroke-dasharray="2 2" stroke-width="1"></path>
+<circle cx="480" cy="180" fill="#34C759" r="4.5" stroke="#FFFFFF" stroke-width="1.8"></circle>
+<g transform="translate(488, 168)">
+<rect fill="#FFFFFF" fill-opacity="0.92" height="20" rx="6" stroke="rgba(52,199,89,0.5)" stroke-width="1" width="134" x="0" y="0"></rect>
+<circle cx="9" cy="10" fill="#34C759" r="3"></circle>
+<text fill="#248A3D" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" x="18" y="13.5">SENTINEL-2B SWATH</text>
+</g>
+<!-- Subtle Beacon Glows -->
+<circle cx="278" cy="312" fill="url(#beaconFlaggedGlowLight)" opacity="0.5" r="24"></circle>
+<circle cx="278" cy="312" fill="none" opacity="0.8" r="16" stroke="#FF3B30" stroke-dasharray="3 3" stroke-width="1.2"></circle>
+<circle cx="790" cy="228" fill="url(#beaconFlaggedGlowLight)" opacity="0.4" r="20"></circle>
+<circle cx="790" cy="228" fill="none" opacity="0.7" r="14" stroke="#FF3B30" stroke-dasharray="2 2" stroke-width="1.2"></circle>
+</svg>
+<!-- Interactive Claim Pins with Apple Style Hover Glass Tooltips (Light Appearance) -->
+<!-- Pin 1: Rio Verified -->
+<div class="absolute left-[33%] top-[62%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="absolute -inset-3 rounded-full bg-[#34C759]/25 animate-pulse-ring"></span>
+<span class="relative flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-[#34C759] text-[#34C759] shadow-[0_2px_10px_rgba(52,199,89,0.5)]">
+<span class="h-2.5 w-2.5 rounded-full bg-[#34C759]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-[12px] font-semibold text-[#248A3D]">Verified · 40 trees</span>
+</div>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Rio Atlantic Forest (-22.9°, -43.2°)</span>
+<span class="text-[11px] text-[#6E6E73] font-mono">NDVI: 0.78 · Sentinel Conf: 91%</span>
+</div>
+</div>
+<!-- Pin 2: Nairobi Verified -->
+<div class="absolute left-[54%] top-[54%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="absolute -inset-3 rounded-full bg-[#34C759]/25 animate-pulse-ring"></span>
+<span class="relative flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-[#34C759] text-[#34C759] shadow-[0_2px_10px_rgba(52,199,89,0.5)]">
+<span class="h-2.5 w-2.5 rounded-full bg-[#34C759]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-[12px] font-semibold text-[#248A3D]">Verified · 40 trees</span>
+</div>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Nairobi Agroforestry (-1.3°, 36.8°)</span>
+<span class="text-[11px] text-[#6E6E73] font-mono">NDVI: 0.69 · Radar Soil: Optimal</span>
+</div>
+</div>
+<!-- Pin 3: Borneo Verified -->
+<div class="absolute left-[81%] top-[51%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="relative flex h-5 w-5 items-center justify-center rounded-full bg-white border-2 border-[#34C759] text-[#34C759] shadow-[0_2px_8px_rgba(52,199,89,0.4)]">
+<span class="h-2 w-2 rounded-full bg-[#34C759]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+<span class="text-[12px] font-semibold text-[#248A3D]">Verified · 80 CTC</span>
+</div>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Borneo Peatland (0.9°, 114.0°)</span>
+<span class="text-[11px] text-[#6E6E73] font-mono">NDWI Hydrology: Validated</span>
+</div>
+</div>
+<!-- Pin 4: São Paulo Partial -->
+<div class="absolute left-[31%] top-[66%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="relative flex h-5 w-5 items-center justify-center rounded-full bg-white border-2 border-[#FF9500] text-[#FF9500] shadow-[0_2px_8px_rgba(255,149,0,0.4)]">
+<span class="h-2 w-2 rounded-full bg-[#FF9500]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<span class="text-[12px] font-semibold text-[#B26A00]">Partial · 40 CTC</span>
+<span class="text-[11px] text-[#1D1D1F] font-mono">São Paulo Basin · Conf: 42%</span>
+</div>
+</div>
+<!-- Pin 5: Central Europe Partial -->
+<div class="absolute left-[51%] top-[25%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="relative flex h-5 w-5 items-center justify-center rounded-full bg-white border-2 border-[#FF9500] text-[#FF9500] shadow-[0_2px_8px_rgba(255,149,0,0.4)]">
+<span class="h-2 w-2 rounded-full bg-[#FF9500]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<span class="text-[12px] font-semibold text-[#B26A00]">Partial · 40 trees</span>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Central Europe · Conf: 42%</span>
+</div>
+</div>
+<!-- Pin 6: Western India Partial -->
+<div class="absolute left-[68%] top-[39%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="relative flex h-5 w-5 items-center justify-center rounded-full bg-white border-2 border-[#FF9500] text-[#FF9500] shadow-[0_2px_8px_rgba(255,149,0,0.4)]">
+<span class="h-2 w-2 rounded-full bg-[#FF9500]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<span class="text-[12px] font-semibold text-[#B26A00]">Partial · 4 CTC</span>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Western India (compost) · Conf: 42%</span>
+</div>
+</div>
+<!-- Pin 7: Amazon Basin Flagged -->
+<div class="absolute left-[28%] top-[57%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="absolute -inset-3 rounded-full bg-[#FF3B30]/20 animate-pulse-ring"></span>
+<span class="relative flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-[#FF3B30] text-[#FF3B30] shadow-[0_2px_10px_rgba(255,59,48,0.5)]">
+<span class="h-2.5 w-2.5 rounded-full bg-[#FF3B30]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-[#FF3B30]/30 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#FF3B30]"></span>
+<span class="text-[12px] font-semibold text-[#D70015]">Anomaly Flagged · 200 m²</span>
+</div>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Amazon Basin (-3.4°, -62.2°)</span>
+<span class="text-[11px] text-[#D70015] font-mono">NDVI: 0.25 (Conf 25% · Anomaly 100%)</span>
+</div>
+</div>
+<!-- Pin 8: Indochina Plateau Flagged -->
+<div class="absolute left-[79%] top-[45%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10">
+<span class="absolute -inset-3 rounded-full bg-[#FF3B30]/20 animate-pulse-ring"></span>
+<span class="relative flex h-6 w-6 items-center justify-center rounded-full bg-white border-2 border-[#FF3B30] text-[#FF3B30] shadow-[0_2px_10px_rgba(255,59,48,0.5)]">
+<span class="h-2.5 w-2.5 rounded-full bg-[#FF3B30]"></span>
+</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 hidden group-hover:flex flex-col gap-1 p-3 bg-white/95 backdrop-blur-2xl border border-[#FF3B30]/30 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] text-nowrap z-20">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#FF3B30]"></span>
+<span class="text-[12px] font-semibold text-[#D70015]">Flagged · 999k Outlier</span>
+</div>
+<span class="text-[11px] text-[#1D1D1F] font-mono">Indochina Plateau (15.2°, 104.5°)</span>
+<span class="text-[11px] text-[#D70015] font-mono">Anomaly 100% · Quantity Implausible</span>
+</div>
+</div>
+<!-- Apple Glass Floating HUD Overlays (Light) -->
+<div class="absolute top-3.5 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 border border-black/[0.08] backdrop-blur-xl shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+<span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse"></span>
+<span class="text-[11px] font-mono text-[#248A3D] font-semibold tracking-wider">LIVE dMRV SATELLITE FEED</span>
+</div>
+<div class="px-2.5 py-0.5 rounded-md bg-white/85 border border-black/[0.06] backdrop-blur-md text-[10px] font-mono text-[#6E6E73]">
+          LAYER: SENTINEL-2 NDVI / RADAR · REFRESH: 12s AGO
+        </div>
+</div>
+<div class="absolute top-3.5 right-4 flex items-center gap-2 z-10 pointer-events-none">
+<div class="px-3 py-1.5 rounded-full bg-white/90 border border-black/[0.08] backdrop-blur-xl text-[11px] font-mono text-[#1D1D1F] flex items-center gap-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+<span class="material-symbols-outlined text-[15px] text-[#248A3D]">satellite_alt</span>
+<span class="">ORBIT: 786 KM · SUN-SYNC</span>
+</div>
+</div>
+<div class="absolute bottom-3.5 left-4 px-3 py-1.5 rounded-full bg-white/90 border border-black/[0.08] text-[11px] font-mono text-[#1D1D1F] backdrop-blur-xl flex items-center gap-2 z-10 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+<span class="text-[#248A3D]">PROJECTION:</span>
+<span class="">WGS 84 / GEO-HEX</span>
+<span class="text-black/20">|</span>
+<span class="">RES: 10m MULTISPECTRAL</span>
+</div>
+<div class="absolute bottom-3.5 right-4 px-3 py-1.5 rounded-full bg-white/90 border border-black/[0.08] text-[11px] font-mono text-[#248A3D] backdrop-blur-xl hidden sm:flex items-center gap-1.5 z-10 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+<span class="material-symbols-outlined text-[15px]">public</span>
+<span class="">GLOBAL BIOMASS ATTESTATION ACTIVE</span>
+</div>
+</div>
+<!-- Map Legend Bar -->
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-black/[0.06] gap-4 text-[12px] text-[#86868B]">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#34C759] shadow-[0_0_6px_rgba(52,199,89,0.8)]"></span>
+<span class="text-[#1D1D1F]">Verified · 3</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#FF9500] shadow-[0_0_6px_rgba(255,149,0,0.8)]"></span>
+<span class="text-[#1D1D1F]">Partial · 3</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#FF3B30] shadow-[0_0_6px_rgba(255,59,48,0.8)]"></span>
+<span class="text-[#1D1D1F]">Flagged · 2</span>
+</div>
+</div>
+<div class="text-[#86868B] font-mono text-[11px]">
+        Marker size ∝ claimed quantity
+      </div>
+</div>
+</div>
+<!-- Middle Asymmetric 2-Column Section (Form + Review Queue - Light) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Left: Submit a claim (Apple Settings / Sheet aesthetic - Light) -->
+<div class="lg:col-span-6 xl:col-span-6 p-6 rounded-[24px] bg-white border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col justify-between" id="claim-form-section">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-[#F5F5F7] flex items-center justify-center text-[#1D1D1F]">
+<span class="material-symbols-outlined text-[17px]">edit_square</span>
+</div>
+<h2 class="text-[17px] font-semibold text-[#1D1D1F] tracking-tight">Submit a claim</h2>
+</div>
+<span class="text-[11px] font-mono text-[#6E6E73] bg-[#F5F5F7] px-2.5 py-1 rounded-full border border-black/[0.06]">Independent dMRV</span>
+</div>
+<!-- Form Fields with Apple Recessed Controls -->
+<form class="space-y-3.5" onsubmit="event.preventDefault();">
+<!-- Row 1: Type & Quantity -->
+<div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+<div class="sm:col-span-7">
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Claim type</label>
+<div class="relative">
+<select class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition appearance-none cursor-pointer">
+<option class="bg-white text-[#1D1D1F]" selected="">Tree planted</option>
+<option class="bg-white text-[#1D1D1F]">Wetland restoration</option>
+<option class="bg-white text-[#1D1D1F]">Biochar sequestration</option>
+<option class="bg-white text-[#1D1D1F]">Soil carbon enrichment</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 pointer-events-none text-[#86868B] text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="sm:col-span-5">
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Quantity</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition font-mono" placeholder="Amount" type="number" value="40">
+</div>
+</div>
+<!-- Row 2: Unit & Date -->
+<div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+<div class="sm:col-span-6">
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Unit</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition" placeholder="e.g. trees, m2, kg" type="text" value="trees">
+</div>
+<div class="sm:col-span-6">
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Activity date (optional)</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition font-mono" type="date" value="2026-03-23">
+</div>
+</div>
+<!-- Row 3: Coordinates -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Latitude</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition font-mono" type="text" value="-26.2041">
+</div>
+<div>
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Longitude</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition font-mono" type="text" value="28.0473">
+</div>
+</div>
+<!-- Row 4: Team / agent -->
+<div>
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Team / agent (optional)</label>
+<input class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition font-mono" type="text" value="school@greenfield">
+</div>
+<!-- Row 5: Note -->
+<div>
+<label class="block text-[11px] font-semibold uppercase tracking-[0.05em] text-[#6E6E73] mb-1.5">Note (optional)</label>
+<textarea class="w-full bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-xl px-3.5 py-2 text-[13px] text-[#1D1D1F] focus:bg-white focus:border-[#34C759] focus:ring-2 focus:ring-[#34C759]/25 outline-none transition resize-none placeholder:text-[#86868B]" placeholder="e.g. 40 seedlings planted along the riverbank with mulch cover" rows="2"></textarea>
+</div>
+<!-- Submit Action -->
+<div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+<button class="shrink-0 px-5 py-2.5 rounded-xl bg-[#34C759] hover:bg-[#2EB84E] active:scale-[0.98] text-white font-medium text-[13px] tracking-tight shadow-[0_2px_8px_rgba(52,199,89,0.35)] ring-1 ring-black/5 transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[17px] font-bold">verified</span>
+<span class="">Verify &amp; attest claim</span>
+</button>
+<p class="text-[11px] text-[#86868B] leading-snug">
+              The engine cross-checks your claim against independent NTVI/NDWI and weather radar data.
+            </p>
+</div>
+</form>
+</div>
+</div>
+<!-- Right: Flagged — Community Review (Apple macOS Notification/Card style - Light) -->
+<div class="lg:col-span-6 xl:col-span-6 p-6 rounded-[24px] bg-white border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-red-50 text-[#FF3B30] flex items-center justify-center border border-red-200/60">
+<span class="material-symbols-outlined text-[17px]">shield_with_heart</span>
+</div>
+<h2 class="text-[17px] font-semibold text-[#1D1D1F] tracking-tight">Flagged — community review</h2>
+<span class="px-2 py-0.5 rounded-full bg-red-50 border border-red-200 text-[#D70015] text-[11px] font-semibold">
+              2 pending
+            </span>
+</div>
+<span class="text-[#86868B] text-xs font-mono">Consensus triage</span>
+</div>
+<!-- Review Stack Cards -->
+<div class="space-y-3.5">
+<!-- Flagged Card 1: Wetland Restoration -->
+<div class="p-4 rounded-2xl bg-[#F9F9FB] border border-black/[0.06] hover:border-black/[0.12] transition-all flex flex-col gap-3">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<span class="text-[14px] font-semibold text-[#1D1D1F]">
+                Wetland restoration · 200 m²
+              </span>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-[#FF9500]/15 text-[#B26A00] border border-[#FF9500]/25 text-[11px] font-semibold">
+                  confidence 25%
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-red-50 text-[#D70015] border border-red-200/60 text-[11px] font-semibold">
+                  anomaly 100%
+                </span>
+</div>
+</div>
+<div class="text-[11px] font-mono text-[#86868B]">
+              18 Sept 2026
+            </div>
+<ul class="space-y-1 text-[12px] text-[#6E6E73]">
+<li class="flex items-start gap-1.5">
+<span class="text-[#248A3D] font-mono">•</span>
+<span class=""><strong class="text-[#1D1D1F] font-medium">[quantity]</strong> Claimed quantity 200 m2 vs typical max well within the plausible range.</span>
+</li>
+<li class="flex items-start gap-1.5">
+<span class="text-[#248A3D] font-mono">•</span>
+<span class=""><strong class="text-[#1D1D1F] font-medium">[season]</strong> Action is consistent with the seasonal norm.</span>
+</li>
+</ul>
+<div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+<input class="flex-1 bg-white border border-black/[0.08] rounded-xl px-3 py-1.5 text-[12px] text-[#1D1D1F] placeholder:text-[#86868B] focus:border-[#34C759] outline-none" placeholder="Review note (e.g. 'community confirmed via photo')" type="text">
+<button class="px-3 py-1.5 rounded-xl bg-white hover:bg-[#F2F2F7] active:scale-[0.98] text-[#1D1D1F] text-[12px] font-medium transition-all flex items-center justify-center gap-1.5 border border-black/[0.1] shadow-sm text-nowrap">
+<span class="material-symbols-outlined text-[15px] text-[#248A3D]">check_box_outline_blank</span>
+<span class="">Mark reviewed</span>
+</button>
+</div>
+</div>
+<!-- Flagged Card 2: Tree Planted Outlier -->
+<div class="p-4 rounded-2xl bg-red-500/[0.02] border border-red-200/80 hover:border-red-300 transition-all flex flex-col gap-3 shadow-[0_2px_8px_rgba(255,59,48,0.04)]">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<span class="text-[14px] font-semibold text-[#1D1D1F]">
+                Tree planted · 999999 trees
+              </span>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-red-50 text-[#D70015] border border-red-200/60 text-[11px] font-semibold">
+                  confidence 14%
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-red-50 text-[#D70015] border border-red-200/60 text-[11px] font-semibold">
+                  anomaly 100%
+                </span>
+</div>
+</div>
+<div class="text-[11px] font-mono text-[#86868B]">
+              18 Sept 2026
+            </div>
+<ul class="space-y-1 text-[12px] text-[#6E6E73]">
+<li class="flex items-start gap-1.5">
+<span class="text-[#FF3B30] font-mono">•</span>
+<span class=""><strong class="text-[#1D1D1F] font-medium">[quantity]</strong> Claimed quantity 999999 trees vs typical max implausibly high for one submission.</span>
+</li>
+<li class="flex items-start gap-1.5">
+<span class="text-[#248A3D] font-mono">•</span>
+<span class=""><strong class="text-[#1D1D1F] font-medium">[season]</strong> Action is consistent with the seasonal norm.</span>
+</li>
+</ul>
+<div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+<input class="flex-1 bg-white border border-black/[0.08] rounded-xl px-3 py-1.5 text-[12px] text-[#1D1D1F] placeholder:text-[#86868B] focus:border-[#34C759] outline-none" placeholder="Review note (e.g. 'community confirmed via photo')" type="text">
+<button class="px-3 py-1.5 rounded-xl bg-white hover:bg-[#F2F2F7] active:scale-[0.98] text-[#1D1D1F] text-[12px] font-medium transition-all flex items-center justify-center gap-1.5 border border-black/[0.1] shadow-sm text-nowrap">
+<span class="material-symbols-outlined text-[15px] text-[#FF3B30]">check_box_outline_blank</span>
+<span class="">Mark reviewed</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Claims Ledger (Apple macOS Table Style - Light) -->
+<div class="p-6 rounded-[24px] bg-white border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.05)] flex flex-col gap-4">
+<!-- Ledger Header Controls -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<h2 class="text-[17px] font-semibold text-[#1D1D1F] tracking-tight">Recent claims</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-[#34C759]/15 border border-[#34C759]/30 text-[#248A3D] text-[11px] font-semibold">
+          most recent first
+        </span>
+</div>
+<div class="flex items-center gap-3">
+<!-- Search Input -->
+<div class="relative hidden sm:block">
+<input class="bg-[#F2F2F7] hover:bg-[#EAEAEF] border border-black/[0.06] rounded-full pl-8 pr-3 py-1.5 text-[12px] text-[#1D1D1F] placeholder:text-[#86868B] focus:bg-white focus:border-[#34C759] outline-none w-52 transition-all" placeholder="Filter claims..." type="text">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[#86868B] text-[15px]">search</span>
+</div>
+<!-- Export CSV Button -->
+<button class="px-3 py-1.5 rounded-full border border-[#D1D1D6] bg-white hover:bg-[#F2F2F7] active:scale-[0.98] text-[#1D1D1F] text-[12px] font-medium flex items-center gap-1.5 shadow-sm transition-all">
+<span class="material-symbols-outlined text-[15px]">download</span>
+<span class="">Export CSV</span>
+</button>
+</div>
+</div>
+<!-- macOS / iOS Table (Light) -->
+<div class="overflow-x-auto custom-scrollbar border border-black/[0.06] rounded-[16px] bg-white">
+<table class="w-full text-left border-collapse min-w-[820px]">
+<thead>
+<tr class="border-b border-black/[0.06] bg-[#F9F9FB] text-[11px] font-semibold uppercase tracking-[0.06em] text-[#86868B]">
+<th class="py-3 px-4">CLAIM</th>
+<th class="py-3 px-4">AGENT</th>
+<th class="py-3 px-4">QUANTITY</th>
+<th class="py-3 px-4 w-44">CONFIDENCE</th>
+<th class="py-3 px-4">STATUS</th>
+<th class="py-3 px-4">CREDITS</th>
+<th class="py-3 px-4 text-right">DATE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-black/[0.05] text-[13px]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">school-greenfield</td>
+<td class="py-3 px-4 text-[#1D1D1F]">40 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#FF9500] h-full rounded-full" style="width: 42%"></div>
+</div>
+<span class="font-mono text-xs text-[#86868B]">42%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FF9500]/15 text-[#B26A00] border border-[#FF9500]/25">
+                Partial
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#1D1D1F]">40 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">19 Sept 2026, 00:58</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">audit-test</td>
+<td class="py-3 px-4 text-[#1D1D1F]">40 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#FF9500] h-full rounded-full" style="width: 42%"></div>
+</div>
+<span class="font-mono text-xs text-[#86868B]">42%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FF9500]/15 text-[#B26A00] border border-[#FF9500]/25">
+                Partial
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#1D1D1F]">40 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">19 Sept 2026, 00:42</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Wetland restoration</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">hackney-wetland-crew</td>
+<td class="py-3 px-4 text-[#1D1D1F]">200 m2</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#FF3B30] h-full rounded-full" style="width: 25%"></div>
+</div>
+<span class="font-mono text-xs text-[#86868B]">25%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FF3B30]/15 text-[#D70015] border border-[#FF3B30]/25">
+                Flagged
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#86868B]">—</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 21:44</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">sketchy-bot</td>
+<td class="py-3 px-4 text-[#1D1D1F]">999999 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#FF3B30] h-full rounded-full" style="width: 14%"></div>
+</div>
+<span class="font-mono text-xs text-[#86868B]">14%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FF3B30]/15 text-[#D70015] border border-[#FF3B30]/25">
+                Flagged
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#86868B]">—</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 21:33</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">riverfront-primary-school</td>
+<td class="py-3 px-4 text-[#1D1D1F]">40 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#34C759] h-full rounded-full" style="width: 91%"></div>
+</div>
+<span class="font-mono text-xs text-[#248A3D] font-semibold">91%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#34C759]/15 text-[#248A3D] border border-[#34C759]/25">
+                Verified
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#248A3D] font-semibold">80 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 21:30</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Composting</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">school-greenfield</td>
+<td class="py-3 px-4 text-[#1D1D1F]">80 kg</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#FF9500] h-full rounded-full" style="width: 42%"></div>
+</div>
+<span class="font-mono text-xs text-[#86868B]">42%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FF9500]/15 text-[#B26A00] border border-[#FF9500]/25">
+                Partial
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#1D1D1F]">4 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 21:22</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">community</td>
+<td class="py-3 px-4 text-[#1D1D1F]">40 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#34C759] h-full rounded-full" style="width: 91%"></div>
+</div>
+<span class="font-mono text-xs text-[#248A3D] font-semibold">91%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#34C759]/15 text-[#248A3D] border border-[#34C759]/25">
+                Verified
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#248A3D] font-semibold">80 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 21:16</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+<td class="py-3 px-4 text-[#248A3D] font-medium">Tree planted</td>
+<td class="py-3 px-4 font-mono text-[12px] text-[#6E6E73]">school@alpha</td>
+<td class="py-3 px-4 text-[#1D1D1F]">40 trees</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-20 bg-black/[0.06] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#34C759] h-full rounded-full" style="width: 91%"></div>
+</div>
+<span class="font-mono text-xs text-[#248A3D] font-semibold">91%</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#34C759]/15 text-[#248A3D] border border-[#34C759]/25">
+                Verified
+              </span>
+</td>
+<td class="py-3 px-4 font-mono text-[#248A3D] font-semibold">80 CTC</td>
+<td class="py-3 px-4 text-right text-[#86868B] font-mono text-[11px]">18 Sept 2026, 17:40</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Ledger Footer Pagination -->
+<div class="flex items-center justify-between pt-2 text-[12px] text-[#86868B]">
+<span class="">Showing 8 of 8 recorded ledger claims</span>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded-lg bg-[#E5E5EA]/70 text-[#86868B] opacity-60 cursor-not-allowed text-xs">Previous</button>
+<button class="px-2.5 py-1 rounded-lg bg-[#E5E5EA]/70 text-[#86868B] opacity-60 cursor-not-allowed text-xs">Next</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Shared Component: Apple Minimal Footer (Light) -->
+<footer class="mt-14 border-t border-black/[0.06] bg-[#F5F5F7] backdrop-blur-xl">
+<div class="w-full max-w-[1440px] mx-auto px-6 lg:px-8 py-7 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left text-[12px] text-[#86868B]">
+<span class="font-semibold text-[#1D1D1F]">CarbonTrace Lite</span>
+<span class="hidden sm:inline text-black/20">•</span>
+<p class="">© 2026 CarbonTrace Open Protocol. Satellite &amp; Geospatial Data verified independently.</p>
+</div>
+<!-- Links -->
+<div class="flex flex-wrap items-center justify-center gap-6 text-[12px]">
+<a class="text-[#86868B] hover:text-[#1D1D1F] transition-colors" href="#">Ledger Explorer</a>
+<a class="text-[#86868B] hover:text-[#1D1D1F] transition-colors" href="#">Methodology</a>
+<a class="text-[#86868B] hover:text-[#1D1D1F] transition-colors" href="#">Audit Logs</a>
+<a class="text-[#86868B] hover:text-[#1D1D1F] transition-colors" href="#">API Docs</a>
+<a class="text-[#86868B] hover:text-[#1D1D1F] transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

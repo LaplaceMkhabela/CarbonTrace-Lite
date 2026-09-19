@@ -52,14 +52,29 @@ export default function FlaggedQueue({ claims }: { claims: ApiClaim[] }) {
   return (
     <div style={{ display: "grid", gap: "0.75rem" }}>
       {flagged.map((c) => (
-        <div key={c.claimId} className="card" style={{ background: "var(--panel-2)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
-            <Link href={`/claims/${c.claimId}`} style={{ fontWeight: 600 }}>
+        <div key={c.claimId} className="flagged-card hot">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
+            <Link
+              href={`/claims/${c.claimId}`}
+              style={{ fontWeight: 600, color: "var(--text)" }}
+            >
               {CLAIM_TYPE_LABELS[c.claimType]} · {c.quantity} {c.unit}
             </Link>
-            <span className="chip">confidence {Math.round(c.confidence * 100)}%</span>
-            <span className="chip">anomaly {Math.round(c.anomalyScore * 100)}%</span>
-            <span className="chip">{fmtDate(c.createdAt)}</span>
+            <span style={{ display: "inline-flex", gap: "0.4rem" }}>
+              <span className="mini-chip amber tnum">confidence {Math.round(c.confidence * 100)}%</span>
+              <span className="mini-chip red tnum">anomaly {Math.round(c.anomalyScore * 100)}%</span>
+            </span>
+          </div>
+          <div className="muted tnum" style={{ fontSize: "0.75rem", marginTop: "0.25rem" }}>
+            {fmtDate(c.createdAt)}
           </div>
 
           <ul className="reason-list" style={{ marginTop: "0.6rem" }}>
@@ -73,21 +88,31 @@ export default function FlaggedQueue({ claims }: { claims: ApiClaim[] }) {
               ))}
           </ul>
 
-          <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.7rem", alignItems: "center", flexWrap: "wrap" }}>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem" }}>
+          <div style={{ display: "flex", gap: "0.6rem", marginTop: "0.7rem", alignItems: "center", flexWrap: "wrap" }}>
+            <input
+              placeholder="Review note (e.g. 'community confirmed via photo')"
+              value={notes[c.claimId]?.note ?? ""}
+              onChange={(e) => update(c.claimId, { note: e.target.value })}
+              style={{ flex: 1, minWidth: 200 }}
+            />
+            <label
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.45rem",
+                fontSize: "0.82rem",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
               <input
                 type="checkbox"
+                style={{ width: "auto" }}
                 checked={Boolean(notes[c.claimId]?.reviewed)}
                 onChange={(e) => update(c.claimId, { reviewed: e.target.checked })}
               />
               Mark reviewed
             </label>
-            <input
-              placeholder="Review note (e.g. 'community confirmed via photos')"
-              value={notes[c.claimId]?.note ?? ""}
-              onChange={(e) => update(c.claimId, { note: e.target.value })}
-              style={{ flex: 1, minWidth: 220 }}
-            />
           </div>
         </div>
       ))}

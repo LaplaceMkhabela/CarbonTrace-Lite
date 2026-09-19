@@ -130,7 +130,7 @@ export default function SubmitClaim({ onSubmitted }: { onSubmitted?: () => void 
             )}
           </button>
           <span className="muted" style={{ fontSize: "0.8rem" }}>
-            The engine cross-checks your claim against independent NTVI/NDWI and weather data.
+            The engine cross-checks your claim against independent NDVI/NDWI and weather data.
           </span>
         </div>
       </form>

@@ -99,11 +99,19 @@ export default function Marketplace() {
 
   return (
     <main className="page">
-      <h1>Community marketplace</h1>
-      <p className="subtitle">
-        Redeem verified credits for real local rewards — saplings, tools, market discounts. Every
-        credit here was earned through a claim that passed independent verification.
-      </p>
+      <section className="hero">
+        <div>
+          <div className="eyebrow">
+            <span className="status-dot" />
+            Incentive loop · CTC credits
+          </div>
+          <h1>Community marketplace</h1>
+          <p className="subtitle" style={{ margin: 0, maxWidth: "42rem" }}>
+            Redeem verified credits for real local rewards — saplings, tools, market discounts. Every
+            credit here was earned through a claim that passed independent verification.
+          </p>
+        </div>
+      </section>
 
       <section className="card" style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end", flexWrap: "wrap" }}>
         <label className="field" style={{ flex: 1, minWidth: 220 }}>
@@ -127,7 +135,7 @@ export default function Marketplace() {
               <div className="muted" style={{ fontSize: "0.74rem", textTransform: "uppercase" }}>
                 {user.user.displayName} — redeemable
               </div>
-              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--amber)" }}>
+              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--amber)" }} className="metric-value tnum">
                 {available} CTC
               </div>
             </div>
@@ -135,7 +143,7 @@ export default function Marketplace() {
               <div className="muted" style={{ fontSize: "0.74rem", textTransform: "uppercase" }}>
                 Redeemed this month
               </div>
-              <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{spent} CTC</div>
+              <div className="metric-value tnum" style={{ fontSize: "1.5rem" }}>{spent} CTC</div>
             </div>
           </div>
         )}
@@ -154,10 +162,9 @@ export default function Marketplace() {
               <div className="muted" style={{ fontSize: "0.82rem", minHeight: "2.6em" }}>
                 {rw.note}
               </div>
-              <div style={{ fontSize: "1.15rem", fontWeight: 800 }}>{rw.cost} CTC</div>
+              <div className="metric-value tnum" style={{ fontSize: "1.15rem" }}>{rw.cost} CTC</div>
               <button
-                className="btn"
-                style={affordable ? undefined : { background: "var(--border)", color: "var(--text-dim)" }}
+                className={affordable ? "btn" : "btn btn-ghost"}
                 disabled={!affordable}
                 onClick={() => redeem(rw)}
               >
