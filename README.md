@@ -14,6 +14,18 @@ verifiable carbon credits (CTC).
 
 ---
 
+## Screenshots
+
+| Dashboard: metric ribbon, verification ratio, issuance trend, live map, review queue, ledger | Marketplace: redeem CTC for local rewards |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Marketplace](docs/screenshots/marketplace.png) |
+
+| Verifiable certificate: confidence, signals, data hash, attestation |
+|---|
+| ![Claim certificate](docs/screenshots/certificate.png) |
+
+---
+
 ## Why it matters
 
 Most "green apps" only estimate carbon — they produce numbers nobody can
