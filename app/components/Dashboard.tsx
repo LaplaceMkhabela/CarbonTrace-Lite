@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { fetchClaims, type ApiClaim, type ApiStats } from "@/lib/api";
+import { fetchClaims, toApiClaim, type ApiClaim, type ApiStats } from "@/lib/api";
 import CommunityMap from "./CommunityMap";
 import SubmitClaim from "./SubmitClaim";
 import ClaimFeed from "./ClaimFeed";
@@ -30,9 +30,14 @@ export default function Dashboard({
     try {
       const res = await fetchClaims();
       if (res.ok) {
-        setClaims(res.claims.map((c) => c.result));
+        // The API returns nested verification results — flatten to the same
+        // ApiClaim shape the server render uses, or markers/rows go blank.
+        // On failure keep the previous claims instead of blanking the UI.
+        setClaims(res.claims.map((c) => toApiClaim(c.result)));
         setStats(res.stats);
       }
+    } catch {
+      // Keep showing the last good data; the next refresh will retry.
     } finally {
       setRefreshing(false);
     }

@@ -73,7 +73,7 @@ export interface ApiStats {
 
 export interface ClaimsResponse {
   ok: boolean;
-  claims: Array<{ result: ApiClaim; attestation: ApiAttestation | null }>;
+  claims: Array<{ result: WireVerificationResult; attestation: ApiAttestation | null }>;
   count: number;
   stats: ApiStats;
 }
@@ -158,4 +158,54 @@ export function shortHash(h: string): string {
   if (!h) return "";
   const clean = h.replace(/^0x/, "");
   return `${clean.slice(0, 10)}…${clean.slice(-6)}`;
+}
+
+/**
+ * The wire shape of a verification result: the claim input is nested under
+ * `claim`, everything else is top-level. The UI works with the flattened
+ * `ApiClaim` instead — use this converter on every ingest path (server
+ * `page.tsx`, client `Dashboard.refresh`) so both produce identical shapes.
+ */
+export interface WireVerificationResult {
+  claimId: string;
+  claim: {
+    claimType: string;
+    lat: number;
+    lon: number;
+    quantity: number;
+    unit: string;
+    activityDate?: string;
+    agentRef?: string;
+    note?: string;
+  };
+  confidence: number;
+  anomalyScore: number;
+  status: string;
+  multiplier: number;
+  creditsAwarded: number;
+  createdAt: string;
+  signalsBreakdown?: Array<{ name: string; value: number; reason: string }>;
+  signals?: { provider: { ndvi: string; ndwi: string; weather: string } };
+}
+
+export function toApiClaim(r: WireVerificationResult): ApiClaim {
+  return {
+    claimId: r.claimId,
+    claimType: r.claim.claimType as ApiClaim["claimType"],
+    lat: r.claim.lat,
+    lon: r.claim.lon,
+    quantity: r.claim.quantity,
+    unit: r.claim.unit,
+    activityDate: r.claim.activityDate,
+    agentRef: r.claim.agentRef,
+    note: r.claim.note,
+    confidence: r.confidence,
+    anomalyScore: r.anomalyScore,
+    status: r.status as ApiClaim["status"],
+    multiplier: r.multiplier,
+    creditsAwarded: r.creditsAwarded,
+    createdAt: r.createdAt,
+    signalsBreakdown: r.signalsBreakdown,
+    signals: r.signals,
+  };
 }

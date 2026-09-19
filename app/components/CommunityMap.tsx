@@ -120,6 +120,9 @@ export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
           </text>
         )}
         {claims.map((c) => {
+          // Guard: a record with missing/invalid coords must never blank the
+          // whole map — skip the marker instead.
+          if (!Number.isFinite(c.lat) || !Number.isFinite(c.lon)) return null;
           const p = project(c.lat, c.lon);
           const r = 3 + Math.min(12, Math.log10(c.quantity + 1) * 5);
           const color = STATUS_COLOR[c.status] ?? "#94a3b8";
