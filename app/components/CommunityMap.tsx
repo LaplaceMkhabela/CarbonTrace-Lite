@@ -47,10 +47,20 @@ export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
           color: "var(--text-dim)",
         }}
       >
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           {(["verified", "partial", "flagged"] as const).map((s) => (
-            <span key={s}>
-              <span className="status-dot" style={{ background: STATUS_COLOR[s] }} />
+            <span key={s} style={{ display: "inline-flex", alignItems: "center" }}>
+              {s === "flagged" ? (
+                <img
+                  src="/flagged-pin.svg"
+                  alt="Flagged pin"
+                  width={13}
+                  height={18}
+                  style={{ marginRight: "0.35rem" }}
+                />
+              ) : (
+                <span className="status-dot" style={{ background: STATUS_COLOR[s] }} />
+              )}
               {STATUS_LABEL[s]} · {count(s)}
             </span>
           ))}

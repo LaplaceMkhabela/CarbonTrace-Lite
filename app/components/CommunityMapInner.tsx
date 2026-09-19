@@ -1,8 +1,9 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import { useEffect, useMemo } from "react";
-import { CircleMarker, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
+import { CircleMarker, MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import type { LatLngBoundsExpression } from "leaflet";
 import { CLAIM_TYPE_LABELS, type ApiClaim } from "@/lib/api";
 
@@ -43,6 +44,14 @@ function displayAgent(ref?: string): string {
   return ref?.replace(/^user:/, "") ?? "community";
 }
 
+/** Orange pin marker reserved for flagged claims awaiting community review. */
+const flaggedIcon = L.icon({
+  iconUrl: "/flagged-pin.svg",
+  iconSize: [30, 42],
+  iconAnchor: [15, 40],
+  popupAnchor: [0, -36],
+});
+
 /** Keeps every marker in view as the claim set changes. */
 function FitBounds({ points }: { points: Array<[number, number]> }) {
   const map = useMap();
@@ -82,6 +91,27 @@ export default function CommunityMapInner({ claims }: { claims: ApiClaim[] }) {
       <FitBounds points={points} />
       {valid.map((c) => {
         const color = STATUS_COLOR[c.status] ?? "#94a3b8";
+        const popup = (
+          <Popup>
+            <div style={{ minWidth: 180 }}>
+              <strong>
+                {CLAIM_TYPE_LABELS[c.claimType] ?? c.claimType} · {STATUS_LABEL[c.status] ?? c.status}
+              </strong>
+              <div>
+                {c.quantity} {c.unit} · {Math.round(c.confidence * 100)}% confidence
+              </div>
+              <div className="muted">by {displayAgent(c.agentRef)}</div>
+              <a href={`/claims/${c.claimId}`}>Open certificate →</a>
+            </div>
+          </Popup>
+        );
+        if (c.status === "flagged") {
+          return (
+            <Marker key={c.claimId} position={[c.lat, c.lon]} icon={flaggedIcon}>
+              {popup}
+            </Marker>
+          );
+        }
         return (
           <CircleMarker
             key={c.claimId}
@@ -95,18 +125,7 @@ export default function CommunityMapInner({ claims }: { claims: ApiClaim[] }) {
               fillOpacity: 0.45,
             }}
           >
-            <Popup>
-              <div style={{ minWidth: 180 }}>
-                <strong>
-                  {CLAIM_TYPE_LABELS[c.claimType] ?? c.claimType} · {STATUS_LABEL[c.status] ?? c.status}
-                </strong>
-                <div>
-                  {c.quantity} {c.unit} · {Math.round(c.confidence * 100)}% confidence
-                </div>
-                <div className="muted">by {displayAgent(c.agentRef)}</div>
-                <a href={`/claims/${c.claimId}`}>Open certificate →</a>
-              </div>
-            </Popup>
+            {popup}
           </CircleMarker>
         );
       })}
