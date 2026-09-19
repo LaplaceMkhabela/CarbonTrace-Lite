@@ -60,6 +60,14 @@ const verifiedIcon = L.icon({
   popupAnchor: [0, -26],
 });
 
+/** Amber alert-pin marker for partially verified claims. */
+const partialIcon = L.icon({
+  iconUrl: "/partial-pin.svg",
+  iconSize: [30, 30],
+  iconAnchor: [15, 28],
+  popupAnchor: [0, -26],
+});
+
 /** Keeps every marker in view as the claim set changes. */
 function FitBounds({ points }: { points: Array<[number, number]> }) {
   const map = useMap();
@@ -123,6 +131,13 @@ export default function CommunityMapInner({ claims }: { claims: ApiClaim[] }) {
         if (c.status === "verified") {
           return (
             <Marker key={c.claimId} position={[c.lat, c.lon]} icon={verifiedIcon}>
+              {popup}
+            </Marker>
+          );
+        }
+        if (c.status === "partial") {
+          return (
+            <Marker key={c.claimId} position={[c.lat, c.lon]} icon={partialIcon}>
               {popup}
             </Marker>
           );

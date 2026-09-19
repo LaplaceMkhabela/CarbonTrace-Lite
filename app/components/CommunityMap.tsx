@@ -17,12 +17,6 @@ const CommunityMapInner = dynamic(() => import("./CommunityMapInner"), {
   ),
 });
 
-const STATUS_COLOR: Record<string, string> = {
-  verified: "#34d399",
-  partial: "#fbbf24",
-  flagged: "#f87171",
-};
-
 const STATUS_LABEL: Record<string, string> = {
   verified: "Verified",
   partial: "Partial",
@@ -67,7 +61,13 @@ export default function CommunityMap({ claims }: { claims: ApiClaim[] }) {
                   style={{ marginRight: "0.35rem" }}
                 />
               ) : (
-                <span className="status-dot" style={{ background: STATUS_COLOR[s] }} />
+                <img
+                  src="/partial-pin.svg"
+                  alt="Partial pin"
+                  width={14}
+                  height={14}
+                  style={{ marginRight: "0.35rem" }}
+                />
               )}
               {STATUS_LABEL[s]} · {count(s)}
             </span>
