@@ -62,6 +62,16 @@ export default function Dashboard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    // Claims submitted from the nav-bar dialog (or anywhere else) refresh
+    // the dashboard without a full page reload.
+    function onClaimsUpdated() {
+      void refresh();
+    }
+    window.addEventListener("carbontrace:claims-updated", onClaimsUpdated);
+    return () => window.removeEventListener("carbontrace:claims-updated", onClaimsUpdated);
+  }, [refresh]);
+
   const verified = claims.filter((c) => c.status === "verified").length;
   const flagged = claims.filter((c) => c.status === "flagged").length;
   const todayCount = useMemo(() => claims.filter((c) => isToday(c.createdAt)).length, [claims]);

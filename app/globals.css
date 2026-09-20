@@ -964,6 +964,59 @@ textarea {
   color: var(--text-dim);
 }
 
+/* ---------- marketplace ---------- */
+
+.reward-img {
+  width: calc(100% + 2.5rem);
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 0.75rem 0.75rem 0 0;
+  margin: -1.25rem -1.25rem 0.5rem;
+  background: var(--surface-2);
+  display: block;
+}
+
+/* ---------- modal dialog ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4rem 1rem 2rem;
+  overflow-y: auto;
+}
+.modal-panel {
+  width: 100%;
+  max-width: 44rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.modal-body {
+  display: grid;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 3rem 0.75rem 1.5rem;
+  }
+}
+
 /* ---------- print ---------- */
 
 @media print {

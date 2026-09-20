@@ -16,15 +16,16 @@ interface Reward {
   note: string;
   cost: number;
   color: string;
+  image: string;
 }
 
 const REWARDS: Reward[] = [
-  { id: "sapling", name: "Tree sapling", note: "1 native sapling for your garden or school yard", cost: 5, color: "#34d399" },
-  { id: "compost", name: "Compost bin", note: "Household compost bin to continue the loop", cost: 15, color: "#a3e635" },
-  { id: "tools", name: "Garden tools voucher", note: "Voucher at the local hardware cooperative", cost: 20, color: "#38bdf8" },
-  { id: "market", name: "Market discount", note: "10% off at the weekly village market", cost: 30, color: "#fbbf24" },
-  { id: "school", name: "School garden starter kit", note: "Seeds, beds and a workshop for a class", cost: 40, color: "#c084fc" },
-  { id: "pond", name: "Community pond restock", note: "Native fish + plants for the restored wetland", cost: 50, color: "#60a5fa" },
+  { id: "sapling", name: "Tree sapling", note: "1 native sapling for your garden or school yard", cost: 5, color: "#34d399", image: "/market/tree-sapling.png" },
+  { id: "compost", name: "Compost bin", note: "Household compost bin to continue the loop", cost: 15, color: "#a3e635", image: "/market/compost-bin.png" },
+  { id: "tools", name: "Garden tools voucher", note: "Voucher at the local hardware cooperative", cost: 20, color: "#38bdf8", image: "/market/garden-tools-voucher.png" },
+  { id: "market", name: "Market discount", note: "10% off at the weekly village market", cost: 30, color: "#fbbf24", image: "/market/market-discount.png" },
+  { id: "school", name: "School garden starter kit", note: "Seeds, beds and a workshop for a class", cost: 40, color: "#c084fc", image: "/market/school-garden-starter-kit.png" },
+  { id: "pond", name: "Community pond restock", note: "Native fish + plants for the restored wetland", cost: 50, color: "#60a5fa", image: "/market/community-pond-restock.png" },
 ];
 
 const STORE_KEY = (ref: string) => `ct-redemptions-${ref}`;
@@ -157,7 +158,8 @@ export default function Marketplace() {
         {REWARDS.map((rw) => {
           const affordable = user !== null && available >= rw.cost;
           return (
-            <div key={rw.id} className="card stat" style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+            <div key={rw.id} className="card stat" style={{ display: "flex", flexDirection: "column", gap: "0.4rem", overflow: "hidden" }}>
+              <img src={rw.image} alt={rw.name} className="reward-img" loading="lazy" />
               <div style={{ fontSize: "0.85rem", fontWeight: 700, color: rw.color }}>{rw.name}</div>
               <div className="muted" style={{ fontSize: "0.82rem", minHeight: "2.6em" }}>
                 {rw.note}

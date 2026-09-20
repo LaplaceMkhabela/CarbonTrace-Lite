@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { useTheme } from "./ThemeProvider";
+import ClaimDialog from "./ClaimDialog";
 
 const LINKS = [
   { href: "/", label: "Dashboard" },
@@ -12,9 +14,11 @@ const LINKS = [
 export default function Nav() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <header className="site-header">
+    <>
+      <header className="site-header">
       <div className="nav-inner">
         <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
           <Link href="/" className="brand">
@@ -49,11 +53,17 @@ export default function Nav() {
               </svg>
             )}
           </button>
-          <Link href="/" className="btn btn-sm nav-cta">
+          <button
+            type="button"
+            className="btn btn-sm nav-cta"
+            onClick={() => setDialogOpen(true)}
+          >
             + Submit a claim
-          </Link>
+          </button>
         </div>
       </div>
-    </header>
+      </header>
+      <ClaimDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
+    </>
   );
 }
